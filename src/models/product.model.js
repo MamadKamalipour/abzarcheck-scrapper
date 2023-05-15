@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const productSchema = mongoose.Schema({
-  company: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -14,7 +9,7 @@ const productSchema = mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
   },
   price: {
@@ -22,14 +17,21 @@ const productSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
+  description: {
+    type: String,
+    required: false,
+    trim: true,
+  },
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+    required: true,
+  },
 });
 
 productSchema.plugin(toJSON);
 productSchema.plugin(paginate);
 
-/**
- * @typedef Product
- */
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
